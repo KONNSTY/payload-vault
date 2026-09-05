@@ -1,0 +1,3 @@
+import { NextResponse } from "next/server";
+export async function POST(request: Request, { params }: { params: Promise<{ source: string }> }) { const { source } = await params; let payload: unknown; try { payload = await request.json(); } catch { return NextResponse.json({ error: "Body must be valid JSON" }, { status: 400 }); } return NextResponse.json({ accepted: true, source, eventId: `evt_${crypto.randomUUID()}`, receivedAt: new Date().toISOString(), payload }, { status: 202 }); }
+export async function GET(_: Request, { params }: { params: Promise<{ source: string }> }) { const { source } = await params; return NextResponse.json({ service: "HookGuard", source, status: "ready", method: "POST" }); }
